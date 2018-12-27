@@ -1,68 +1,47 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 1> 使用脚手架安装(create-react-app 项目名称),后需要重新配置一些文件
+  1/ 删除src文件,自己重新配置
+  2/ 通过 react-app-rewired 这个第三方包 新建config-overrides.js 文件,来自定义一些配置
+  ### 配置内容
+  ```
+  //需要使用 path ,还要支持less, 需要引入对应模块
+  const path = require('path')
+  const RewireLess = require('react-app-rewire-less')
 
-## Available Scripts
+  module.exports = function(config, env){
+    // 修改默认的config.resolve.alias配置,在其基础上添加规则,不是替换,
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname, '/src')
+    }
 
-In the project directory, you can run:
+    //添加 支持 less, RewireLess ()方法 重新赋值config, 再 return 出去
+    config = RewireLess(config, env)
 
-### `npm start`
+    return config
+  }
+  ```
 
-Runs the app in the development mode.<br>
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+  3/ 改变 package.json 初始的 npm start, build, test里面的脚本命令 (eject可以根据需要来使用,不用可以删除这个脚本命令)
+  ```
+    start: "react-scrtpts start" 改为 start: "react-app-rewired start"
+    其他 build, test 命令类似
+  ```
 
-The page will reload if you make edits.<br>
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.<br>
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br>
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (Webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+---
+## 2> 项目开始需要安装的 npm 包 {生产环境使用的包, 后缀 -S,使用 [ create-react-app 项目名称 ] 脚手架会默认安装一些包}
+```
+  react
+  react-dom
+  react-router-dom
+  "react-scripts": "2.1.2" (这个新版本,有问题,暂时使用@2.1.1版本)
+```
+---
+## 3> 使用less 需要安装 npm 第三方包 (开发环境使用的包, 后缀 -D)
+```
+  less
+  react-app-rewired
+  react-app-rewire-less
+  less-loader 
+```
+---
+## 4> 桌面应用开发(混合开发) Electron

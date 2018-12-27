@@ -1,28 +1,23 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+// 一级路由配置
+import React, { Component } from 'react'
+import { HashRouter as Router, Route, Switch } from 'react-router-dom'
 
+// 引入组件
+import Home from './views/Home/index'
+import City from './views/City/index'
+
+//可以使用React.Component()
 class App extends Component {
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
-    );
+      <Router>
+        <Switch>
+          {/* 这里可以用<Fragment> 或者用 <Switch> */}
+          <Route path='/city' component={ City }></Route>
+          <Route path='/' component={ Home }></Route>
+        </Switch>
+      </Router>
+    )
   }
 }
-
-export default App;
+export default App
