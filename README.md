@@ -24,7 +24,7 @@
   3/ 改变 package.json 初始的 npm start, build, test里面的脚本命令 (eject可以根据需要来使用,不用可以删除这个脚本命令)
   ```
     start: "react-scrtpts start" 改为 start: "react-app-rewired start"
-    其他 build, test 命令类似
+    其他 build, test 命令类似(react-app-rewired 由这个包支持)
   ```
 
 ---
@@ -41,7 +41,23 @@
   less
   react-app-rewired
   react-app-rewire-less
-  less-loader 
+  less-loader
 ```
 ---
 ## 4> 桌面应用开发(混合开发) Electron
+---
+## 5> 使用 Ant Design Mobile需要安装的包
+```
+  npm install antd-mobile --save
+  npm install babel-plugin-import -D
+  npm react-app-rewired -D
+```
+  然后在config-overrides.js里面配置文件,加入带加号内容
+  引入 react-app-rewired 模块,按需引入{ injectBabelPlugin }
+```
+  + const { injectBabelPlugin } = require('react-app-rewired');
+    module.exports = function override(config, env) {
+  +   config = injectBabelPlugin(['import', { libraryName: 'antd-mobile', style: 'css' }], config);
+      return config;
+    };
+```

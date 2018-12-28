@@ -30,7 +30,7 @@ class Tabbar extends Component {
   }
 }
 
-Tabbar.prototypes = {
+Tabbar.PropTypes = {
   tabs: PropTypes.array
 }
 
